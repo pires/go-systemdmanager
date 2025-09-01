@@ -1,0 +1,21 @@
+name: CI
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test-lint-vet-cover:
+    uses: ./.github/workflows/test-lint-vet-cover.yml
+    secrets: inherit
+    
+  e2e:
+    needs: test-lint-vet-cover
+    uses: ./.github/workflows/e2e.yml
+    secrets: inherit
+   

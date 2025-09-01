@@ -1,0 +1,23 @@
+on:
+    workflow_call:
+  
+jobs:
+  test-lint-vet-cover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+      - uses: golangci/golangci-lint-action@v8
+        with:
+          version: v2.1
+      - name: Run go vet
+        run: go vet ./...
+      - name: Run unit tests with coverage
+        run: go test -run Test_Unit_ -race -shuffle=on -v -covermode=atomic -coverprofile=coverage.out ./...
+      - name: Upload coverage to GitHub Actions
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.out
