@@ -21,7 +21,7 @@ const unitDummy = "manager_dummy.service"
 // error, such as fixtures.UninstallUnit.
 var uninstallUnit = func(t *testing.T, ctx context.Context, unit string) {
 	if err := fixtures.UninstallUnit(ctx, unit); err != nil {
-		t.Logf("failed to uninstall unit %q: %w", unit, err)
+		t.Errorf("failed to uninstall unit %q: %s", unit, err.Error())
 	}
 }
 
@@ -36,7 +36,7 @@ func Test_E2E_Manager_Watch(t *testing.T) {
 		// Install fixture.
 		require.NoError(t, fixtures.InstallUnit(ctx, unitDummy))
 		// By the time of uninstall, ctx may be cancelled.
-		defer uninstallUnit(t, context.Background(), unitDummy)
+		defer uninstallUnit(t, t.Context(), unitDummy)
 
 		// Set-up manager.
 		mgr, err := New(ctx)
@@ -111,7 +111,7 @@ func Test_E2E_Manager_Watch(t *testing.T) {
 		// Install fixture.
 		require.NoError(t, fixtures.InstallUnit(ctx, unitDummy))
 		// By the time of uninstall, ctx may be cancelled.
-		defer uninstallUnit(t, context.Background(), unitDummy)
+		defer uninstallUnit(t, t.Context(), unitDummy)
 
 		// Set-up manager.
 		mgr, err := New(ctx)
