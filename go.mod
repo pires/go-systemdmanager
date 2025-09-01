@@ -1,6 +1,6 @@
 module github.com/pires/go-systemdmanager
 
-go 1.24
+go 1.25
 
 require (
 	github.com/coreos/go-systemd/v22 v22.6.0
