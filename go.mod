@@ -2,6 +2,8 @@ module github.com/pires/go-systemdmanager
 
 go 1.25
 
+toolchain go1.25.0
+
 require (
 	github.com/coreos/go-systemd/v22 v22.6.0
 	github.com/stretchr/testify v1.11.1
