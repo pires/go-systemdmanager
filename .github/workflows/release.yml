@@ -1,0 +1,27 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'    # Push of a v* tag
+
+jobs:
+  test-lint-vet-cover:
+    uses: ./.github/workflows/test-lint-vet-cover.yml
+    secrets: inherit
+
+  e2e:
+    needs: test-lint-vet-cover
+    uses: ./.github/workflows/e2e.yml
+    secrets: inherit
+
+  release:
+    needs: [test-lint-vet-cover, e2e]
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
