@@ -17,7 +17,7 @@ jobs:
       - name: Run unit tests with coverage
         run: go test -run Test_Unit_ -race -shuffle=on -v -covermode=atomic -coverprofile=coverage.out ./...
       - name: Upload coverage to GitHub Actions
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: coverage-report
           path: coverage.out
